@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>framecraftt — Custom Photo Frames, PVC Wallet Cards &amp; Coffee Cups</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!--
+    ==========================================================================
+    IMAGE ASSET CONFIGURATION (MATCHES YOUR LOCAL FOLDER EXACTLY):
+    Place index.html inside: C:\Users\Sayeed\Desktop\framecraftt-site\
+    And keep your 7 images inside: C:\Users\Sayeed\Desktop\framecraftt-site\images\
+    ==========================================================================
+  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-canvas: #FAFAFA;
+      --grid-line: rgba(17, 17, 17, 0.06);
+      --ink-primary: #111111;
+      --ink-secondary: #4B5563;
+      --accent-amber: #f59e0b;
+      --accent-yellow: #fbbf24;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--ink-primary);
+      /* Minimalist light-grid background matching your brand banner aesthetic */
+      background-image:
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      background-size: 28px 28px;
+      background-position: top center;
+    }
+
+    .font-mono-label {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .card-surface {
+      background-color: rgba(255, 255, 255, 0.95);
+      border: 1.5px solid #111111;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card-surface:hover {
+      transform: translateY(-3px);
+      box-shadow: 4px 4px 0px #111111;
+    }
+
+    .hard-shadow {
+      box-shadow: 4px 4px 0px #111111;
+    }
+
+    .hard-shadow-sm {
+      box-shadow: 2.5px 2.5px 0px #111111;
+    }
+
+    .amber-underline {
+      background: linear-gradient(180deg, transparent 58%, rgba(251, 191, 36, 0.55) 58%);
+    }
+
+    .btn-amber {
+      background-color: #fbbf24;
+      color: #111111;
+      border: 1.5px solid #111111;
+      transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-amber:hover {
+      background-color: #f59e0b;
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px #111111;
+    }
+
+    .btn-amber:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px #111111;
+    }
+
+    .btn-dark {
+      background-color: #111111;
+      color: #FFFFFF;
+      border: 1.5px solid #111111;
+      transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-dark:hover {
+      background-color: #262626;
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px #fbbf24;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-[#fbbf24] selection:text-[#111111]">
+
+  <!-- ===================================================================== -->
+  <!-- STICKY NAVIGATION HEADER                                              -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-40 bg-[#FAFAFA]/95 backdrop-blur-md border-b border-[#111111]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
+      <!-- Brand Logo -->
+      <a href="#home" onclick="navigateTo('home'); return false;" class="flex items-center gap-2.5 group shrink-0">
+        <span class="w-9 h-9 rounded-full bg-[#fbbf24] border-[1.5px] border-[#111111] flex items-center justify-center font-extrabold text-sm tracking-tight group-hover:scale-105 transition-transform">
+          fc
+        </span>
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold text-lg sm:text-xl tracking-tight text-[#111111]">
+            framecraftt
+          </span>
+          <span class="hidden lg:inline-block font-mono-label text-[11px] font-semibold px-2.5 py-0.5 rounded-full border border-[#111111] bg-white text-[#111111]">
+            SINCE 2023
+          </span>
+        </div>
+      </a>
+
+      <!-- Multi-View Navigation Tabs -->
+      <nav aria-label="Primary Navigation" class="flex items-center gap-1.5 sm:gap-2">
+        <button
+          id="nav-home"
+          onclick="navigateTo('home')"
+          class="nav-pill px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold border-[1.5px] transition-all"
+        >
+          Home &amp; Catalog
+        </button>
+        <button
+          id="nav-how-to-order"
+          onclick="navigateTo('how-to-order')"
+          class="nav-pill px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold border-[1.5px] transition-all"
+        >
+          How to Order
+        </button>
+        <button
+          id="nav-about"
+          onclick="navigateTo('about')"
+          class="nav-pill px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold border-[1.5px] transition-all"
+        >
+          About Us
+        </button>
+      </nav>
+
+      <!-- Direct WhatsApp Button -->
+      <a
+        href="https://wa.me/917002149751?text=Hi%20framecraftt!%20I%20would%20like%20to%20enquire%20about%20a%20custom%20order."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden md:inline-flex items-center gap-2 btn-amber px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold shrink-0"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+        </svg>
+        <span>+91 70021 49751</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN CONTENT VIEWS (#home, #how-to-order, #about)                     -->
+  <!-- ===================================================================== -->
+  <main class="flex-grow">
+
+    <!-- =================================================================== -->
+    <!-- VIEW 1: HOME PAGE WITH HERO SHOWCASE, SIZE CUSTOMIZER & CATALOG     -->
+    <!-- =================================================================== -->
+    <section id="page-home" class="page-view max-w-6xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-16">
+
+      <!-- Split Hero Section with Interactive Real-Work Preview -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+        <!-- Left Hero Copy -->
+        <div class="lg:col-span-7">
+          <div class="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border-[1.5px] border-[#111111] hard-shadow-sm text-xs font-bold mb-5">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#f59e0b] border border-[#111111]"></span>
+            <span>Operating Since 2023</span>
+            <span class="text-gray-400">•</span>
+            <span>1,000+ Customers</span>
+            <span class="text-gray-400">•</span>
+            <span>Pickup &amp; Delivery</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-[1.12] text-[#111111]">
+            Handcrafted <span class="amber-underline">Custom Frames</span>, PVC Wallet Cards &amp; Coffee Cups.
+          </h1>
+
+          <p class="mt-4 text-base sm:text-lg text-gray-700 leading-relaxed max-w-2xl">
+            Turn your favorite photos into timeless wall frames, pocket-sized PVC cards, and custom printed mugs. Available in all standard sizes, mount finishes, and extra-large custom dimensions—with a free digital preview before printing.
+          </p>
+
+          <!-- Product Specialty Pills -->
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span class="font-mono-label text-xs font-semibold px-3 py-1 rounded-full bg-white border border-[#111111]">
+              All Frame Sizes (No Upper Limit)
+            </span>
+            <span class="font-mono-label text-xs font-semibold px-3 py-1 rounded-full bg-white border border-[#111111]">
+              1" &amp; 1.5" Border Sides
+            </span>
+            <span class="font-mono-label text-xs font-semibold px-3 py-1 rounded-full bg-white border border-[#111111]">
+              PVC Wallet Cards
+            </span>
+            <span class="font-mono-label text-xs font-semibold px-3 py-1 rounded-full bg-white border border-[#111111]">
+              Custom Coffee Cups
+            </span>
+          </div>
+
+          <!-- Primary CTAs -->
+          <div class="mt-7 flex flex-wrap items-center gap-3">
+            <a href="#size-customizer" class="btn-amber px-6 py-3 rounded-full text-sm font-extrabold inline-flex items-center gap-2">
+              <span>Choose Size &amp; Quote</span>
+              <span aria-hidden="true">&darr;</span>
+            </a>
+            <a href="#catalog-section" class="px-6 py-3 rounded-full text-sm font-bold bg-white border-[1.5px] border-[#111111] hover:bg-[#111111] hover:text-white transition-colors">
+              Browse 7 Featured Works
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Hero Interactive Product Showcase -->
+        <div class="lg:col-span-5">
+          <div class="rounded-3xl bg-white border-[1.5px] border-[#111111] hard-shadow p-4 sm:p-5">
+            <div class="flex items-center justify-between gap-2 pb-3 border-b border-black/10">
+              <div class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#f59e0b] border border-[#111111]"></span>
+                <span class="font-mono-label text-xs font-bold uppercase tracking-wider text-[#111111]">
+                  Recent Studio Craft
+                </span>
+              </div>
+              <span id="hero-slide-counter" class="font-mono-label text-xs font-semibold px-2.5 py-0.5 rounded-full bg-[#FAFAFA] border border-[#111111]">
+                01 / 07
+              </span>
+            </div>
+
+            <!-- Main Showcase Frame -->
+            <div class="mt-3.5 relative aspect-[4/4] w-full rounded-2xl overflow-hidden bg-[#F3F4F6] border border-[#111111]">
+              <img
+                id="hero-preview-img"
+                src="images/SaveClip.App_734358288_17945348643217142_8653490888581212622_n.jpg"
+                alt="Department of English Batch 2023-2026 Group Collage Frame"
+                onerror="handleHeroFallback(this)"
+                class="w-full h-full object-cover transition-opacity duration-300"
+              />
+              <!-- Clean Fallback if browser preview lacks local folder -->
+              <div id="hero-fallback-box" class="hidden w-full h-full flex-col items-center justify-center p-6 text-center bg-[#FFFBEB]">
+                <span class="px-3 py-1 rounded-full bg-[#fbbf24] border border-[#111111] font-mono-label text-xs font-bold mb-2">
+                  LOCAL IMAGE READY
+                </span>
+                <p id="hero-fallback-title" class="font-bold text-base text-[#111111]">Department of English Batch Frame</p>
+                <p id="hero-fallback-path" class="font-mono-label text-[11px] text-gray-600 mt-1 break-all">
+                  images/SaveClip.App_734358288_17945348643217142_8653490888581212622_n.jpg
+                </p>
+              </div>
+
+              <!-- Prev / Next Controls -->
+              <button
+                type="button"
+                onclick="stepHeroSlide(-1)"
+                aria-label="Previous featured item"
+                class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/95 border-[1.5px] border-[#111111] flex items-center justify-center font-bold hover:bg-[#fbbf24] transition-colors"
+              >
+                &larr;
+              </button>
+              <button
+                type="button"
+                onclick="stepHeroSlide(1)"
+                aria-label="Next featured item"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/95 border-[1.5px] border-[#111111] flex items-center justify-center font-bold hover:bg-[#fbbf24] transition-colors"
+              >
+                &rarr;
+              </button>
+            </div>
+
+            <!-- Caption & Quick Action -->
+            <div class="mt-3.5 flex items-center justify-between gap-3">
+              <div class="min-w-0">
+                <p id="hero-preview-category" class="font-mono-label text-[11px] font-semibold uppercase text-[#d97706]">
+                  Custom Photo Frame
+                </p>
+                <h2 id="hero-preview-title" class="font-bold text-sm sm:text-base text-[#111111] truncate">
+                  Department of English Batch Collage Frame
+                </h2>
+              </div>
+              <a
+                id="hero-quote-link"
+                href="https://wa.me/917002149751?text=Hi%20framecraftt!%20I%20want%20a%20quote%20for%20the%20Department%20of%20English%20Batch%20Collage%20Frame."
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-amber px-3.5 py-2 rounded-full text-xs font-extrabold shrink-0"
+              >
+                Ask on WhatsApp
+              </a>
+            </div>
+
+            <!-- Thumbnail Switcher Dots -->
+            <div id="hero-thumbs" class="mt-3 pt-3 border-t border-black/10 flex items-center gap-2 overflow-x-auto no-scrollbar">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- INTERACTIVE FRAME SIZE & BORDER THICKNESS CUSTOMIZER              -->
+      <!-- ================================================================= -->
+      <div id="size-customizer" class="mt-12 sm:mt-16 rounded-3xl bg-white border-[1.5px] border-[#111111] hard-shadow p-5 sm:p-7">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-black/10">
+          <div>
+            <span class="font-mono-label text-[11px] font-bold uppercase tracking-wider text-[#d97706]">
+              Interactive Frame Configurator
+            </span>
+            <h2 class="text-lg sm:text-2xl font-extrabold text-[#111111]">
+              Pick Your Frame Size &amp; Border Thickness
+            </h2>
+          </div>
+          <span class="font-mono-label text-xs font-bold px-3.5 py-1.5 rounded-full bg-[#fbbf24]/30 border border-[#111111] text-[#111111] self-start sm:self-auto">
+            Custom Sizes • No Upper Limit
+          </span>
+        </div>
+
+        <div class="mt-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <!-- Left: Frame Size Pills -->
+          <div class="lg:col-span-7">
+            <label class="block font-mono-label text-xs font-bold text-[#111111] mb-2.5">
+              1. SELECT FRAME SIZE (STANDARD, MOUNT &amp; CUSTOM):
+            </label>
+            <div id="size-options" class="flex flex-wrap gap-2">
+              <!-- Populated dynamically by JS -->
+            </div>
+
+            <!-- Custom Dimension Text Input (Appears when 'Custom Size & Design' is clicked) -->
+            <div id="custom-size-wrapper" class="hidden mt-4 p-4 rounded-2xl bg-[#FFFBEB] border-[1.5px] border-[#111111]">
+              <label for="custom-size-input" class="block font-mono-label text-xs font-bold text-[#111111] mb-1.5">
+                TYPE YOUR CUSTOM DIMENSIONS OR DESIGN NOTE:
+              </label>
+              <input
+                id="custom-size-input"
+                type="text"
+                placeholder="e.g., 16x24, 24x36, large wall collage, or custom shape..."
+                oninput="updateCustomDimension(this.value)"
+                class="w-full px-3.5 py-2.5 text-sm font-medium rounded-xl border-[1.5px] border-[#111111] bg-white focus:outline-none focus:ring-2 focus:ring-[#f59e0b]"
+              />
+              <p class="mt-1.5 text-xs text-gray-700">
+                We craft frames in any dimension—from compact tabletop sizes to extra-large custom wall installations.
+              </p>
+            </div>
+          </div>
+
+          <!-- Right: Border Thickness & Direct Custom Quote Button -->
+          <div class="lg:col-span-5 flex flex-col justify-between bg-[#FAFAFA] rounded-2xl border border-[#111111] p-4 sm:p-5">
+            <div>
+              <label class="block font-mono-label text-xs font-bold text-[#111111] mb-2.5">
+                2. SELECT FRAME BORDER THICKNESS:
+              </label>
+              <div class="grid grid-cols-2 gap-2.5">
+                <button
+                  type="button"
+                  id="border-1-inch"
+                  onclick="selectBorderWidth('1 inch sides')"
+                  class="border-width-btn px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold border-[1.5px] border-[#111111] bg-[#111111] text-white transition-all"
+                >
+                  1 inch sides
+                </button>
+                <button
+                  type="button"
+                  id="border-1-5-inch"
+                  onclick="selectBorderWidth('1.5 inch sides')"
+                  class="border-width-btn px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold border-[1.5px] border-[#111111] bg-white text-[#111111] hover:bg-[#fbbf24]/25 transition-all"
+                >
+                  1.5 inch sides
+                </button>
+              </div>
+              <p class="mt-2.5 text-xs text-gray-600 leading-relaxed">
+                Your selected size (<span id="summary-size-text" class="font-bold text-[#111111]">A4</span>) and border (<span id="summary-border-text" class="font-bold text-[#111111]">1 inch sides</span>) automatically attach to every frame quote button below.
+              </p>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-black/10">
+              <a
+                id="custom-config-wa-btn"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full btn-amber py-3 px-4 rounded-full text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 text-center"
+              >
+                <span>Send Custom Size Inquiry on WhatsApp</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- PRODUCT CATALOG WITH CATEGORY FILTERS (NO PRICES)                 -->
+      <!-- ================================================================= -->
+      <div id="catalog-section" class="mt-14">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <span class="font-mono-label text-xs font-bold uppercase tracking-wider text-[#d97706]">
+              Our Complete Product Lineup
+            </span>
+            <h2 class="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-[#111111]">
+              Crafted to Order — Request Instant Quote
+            </h2>
+          </div>
+
+          <!-- Category Filter Pills -->
+          <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+            <button
+              type="button"
+              onclick="filterCategory('all')"
+              data-cat="all"
+              class="cat-pill px-4 py-2 rounded-full text-xs sm:text-sm font-bold border-[1.5px] border-[#111111] bg-[#111111] text-white whitespace-nowrap transition-all"
+            >
+              All Items (7)
+            </button>
+            <button
+              type="button"
+              onclick="filterCategory('frame')"
+              data-cat="frame"
+              class="cat-pill px-4 py-2 rounded-full text-xs sm:text-sm font-bold border-[1.5px] border-[#111111] bg-white text-[#111111] hover:bg-[#fbbf24]/25 whitespace-nowrap transition-all"
+            >
+              Custom Frames (5)
+            </button>
+            <button
+              type="button"
+              onclick="filterCategory('wallet-card')"
+              data-cat="wallet-card"
+              class="cat-pill px-4 py-2 rounded-full text-xs sm:text-sm font-bold border-[1.5px] border-[#111111] bg-white text-[#111111] hover:bg-[#fbbf24]/25 whitespace-nowrap transition-all"
+            >
+              PVC Wallet Cards (1)
+            </button>
+            <button
+              type="button"
+              onclick="filterCategory('mug')"
+              data-cat="mug"
+              class="cat-pill px-4 py-2 rounded-full text-xs sm:text-sm font-bold border-[1.5px] border-[#111111] bg-white text-[#111111] hover:bg-[#fbbf24]/25 whitespace-nowrap transition-all"
+            >
+              Coffee Cups (1)
+            </button>
+          </div>
+        </div>
+
+        <!-- Product Cards Grid -->
+        <div id="products-container" class="mt-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Rendered dynamically from PRODUCTS array in JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 2: HOW TO ORDER PAGE (#how-to-order)                           -->
+    <!-- =================================================================== -->
+    <section id="page-how-to-order" class="page-view hidden max-w-5xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-16">
+      <div class="max-w-2xl">
+        <span class="font-mono-label text-xs font-bold uppercase tracking-wider px-3.5 py-1 rounded-full bg-[#fbbf24] border-[1.5px] border-[#111111] inline-block">
+          Easy 3-Step Order Flow
+        </span>
+        <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight text-[#111111]">
+          How to Order from framecraftt
+        </h2>
+        <p class="mt-3 text-base text-gray-700 leading-relaxed">
+          Ordering a custom frame, PVC wallet card, or printed coffee cup takes less than two minutes on WhatsApp. Every order includes a digital preview before final printing.
+        </p>
+      </div>
+
+      <!-- 3-Step Visual Cards -->
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Step 1 -->
+        <div class="card-surface rounded-3xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="w-11 h-11 rounded-full bg-[#fbbf24] border-[1.5px] border-[#111111] flex items-center justify-center font-mono-label font-extrabold text-base mb-5">
+              01
+            </div>
+            <h3 class="text-xl font-extrabold text-[#111111]">Choose Style &amp; Size</h3>
+            <p class="mt-2.5 text-sm text-gray-700 leading-relaxed">
+              Select from our standard &amp; mount frame sizes (<span class="font-semibold">4x4, 6x8, A4, Mount A4, A3, Mount A3, 12x18, Mount 12x18</span>, or any larger custom wall dimension) with <span class="font-semibold">1 inch</span> or <span class="font-semibold">1.5 inch</span> border sides, a <span class="font-semibold">PVC Wallet Card</span>, or a <span class="font-semibold">Custom Coffee Cup</span>.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-black/10 font-mono-label text-xs font-semibold text-gray-600">
+            Custom layouts &amp; collages welcome
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="card-surface rounded-3xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="w-11 h-11 rounded-full bg-[#fbbf24] border-[1.5px] border-[#111111] flex items-center justify-center font-mono-label font-extrabold text-base mb-5">
+              02
+            </div>
+            <h3 class="text-xl font-extrabold text-[#111111]">Share Photos on WhatsApp</h3>
+            <p class="mt-2.5 text-sm text-gray-700 leading-relaxed">
+              Send your photos, names, dates, or custom message directly to <span class="font-mono-label font-bold text-[#111111]">+91 70021 49751</span>. We accept single portraits, multi-photo birthday or anniversary collages, and college batch cutouts.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-black/10 font-mono-label text-xs font-semibold text-gray-600">
+            English &amp; Assamese text supported
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="card-surface rounded-3xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="w-11 h-11 rounded-full bg-[#fbbf24] border-[1.5px] border-[#111111] flex items-center justify-center font-mono-label font-extrabold text-base mb-5">
+              03
+            </div>
+            <h3 class="text-xl font-extrabold text-[#111111]">Digital Preview, Pickup or Delivery</h3>
+            <p class="mt-2.5 text-sm text-gray-700 leading-relaxed">
+              We send you a digital design preview on WhatsApp to approve before printing. Once crafted, you can either pick up your order directly or choose safe doorstep home delivery.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-black/10 font-mono-label text-xs font-semibold text-gray-600">
+            100% preview approval before print
+          </div>
+        </div>
+      </div>
+
+      <!-- Instant WhatsApp Order Builder Box -->
+      <div class="mt-10 rounded-3xl bg-white border-[1.5px] border-[#111111] hard-shadow p-6 sm:p-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-black/10">
+          <div>
+            <h3 class="text-xl font-extrabold text-[#111111]">Build Your WhatsApp Order Message</h3>
+            <p class="text-sm text-gray-600 mt-0.5">Select your product and preferences below to launch WhatsApp immediately.</p>
+          </div>
+          <span class="font-mono-label text-xs font-bold px-3 py-1 rounded-full bg-[#FAFAFA] border border-[#111111]">
+            WhatsApp: +91 70021 49751
+          </span>
+        </div>
+
+        <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label for="order-product-select" class="block font-mono-label text-xs font-bold text-[#111111] mb-1.5">
+              PRODUCT TYPE
+            </label>
+            <select
+              id="order-product-select"
+              class="w-full px-3.5 py-2.5 rounded-xl border-[1.5px] border-[#111111] bg-[#FAFAFA] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#f59e0b]"
+            >
+              <option value="Custom Photo Frame">Custom Photo Frame</option>
+              <option value="Department / Batch Group Collage Frame">Department / Batch Group Collage Frame</option>
+              <option value="64-Photo Milestone Grid Collage Frame">64-Photo Milestone Grid Collage Frame</option>
+              <option value="Ornate Gold-Trimmed Wedding Mount Frame">Ornate Gold-Trimmed Wedding Mount Frame</option>
+              <option value="Classic Brown Anniversary Collage Frame">Classic Brown Anniversary Collage Frame</option>
+              <option value="Minimalist White Birthday Photo Frame">Minimalist White Birthday Photo Frame</option>
+              <option value="Custom PVC Pocket Wallet Card">Custom PVC Pocket Wallet Card</option>
+              <option value="Custom Printed Ceramic Coffee Cup">Custom Printed Ceramic Coffee Cup</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="order-size-select" class="block font-mono-label text-xs font-bold text-[#111111] mb-1.5">
+              SIZE &amp; BORDER (FOR FRAMES)
+            </label>
+            <select
+              id="order-size-select"
+              class="w-full px-3.5 py-2.5 rounded-xl border-[1.5px] border-[#111111] bg-[#FAFAFA] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#f59e0b]"
+            >
+              <option value="4x4 (1 inch sides)">4x4 • 1 inch sides</option>
+              <option value="4x4 (1.5 inch sides)">4x4 • 1.5 inch sides</option>
+              <option value="6x8 (1 inch sides)">6x8 • 1 inch sides</option>
+              <option value="6x8 (1.5 inch sides)">6x8 • 1.5 inch sides</option>
+              <option value="A4 (1 inch sides)" selected>A4 • 1 inch sides</option>
+              <option value="A4 (1.5 inch sides)">A4 • 1.5 inch sides</option>
+              <option value="Mount A4 (1 inch sides)">Mount A4 • 1 inch sides</option>
+              <option value="Mount A4 (1.5 inch sides)">Mount A4 • 1.5 inch sides</option>
+              <option value="A3 (1 inch sides)">A3 • 1 inch sides</option>
+              <option value="A3 (1.5 inch sides)">A3 • 1.5 inch sides</option>
+              <option value="Mount A3 (1 inch sides)">Mount A3 • 1 inch sides</option>
+              <option value="Mount A3 (1.5 inch sides)">Mount A3 • 1.5 inch sides</option>
+              <option value="12x18 (1 inch sides)">12x18 • 1 inch sides</option>
+              <option value="12x18 (1.5 inch sides)">12x18 • 1.5 inch sides</option>
+              <option value="Mount 12x18 (1 inch sides)">Mount 12x18 • 1 inch sides</option>
+              <option value="Mount 12x18 (1.5 inch sides)">Mount 12x18 • 1.5 inch sides</option>
+              <option value="Larger Custom Size & Design">Larger Custom Size &amp; Design</option>
+              <option value="Standard Wallet Card / Coffee Cup Size">Standard Wallet Card / Coffee Cup Size</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="order-fulfillment-select" class="block font-mono-label text-xs font-bold text-[#111111] mb-1.5">
+              DELIVERY PREFERENCE
+            </label>
+            <select
+              id="order-fulfillment-select"
+              class="w-full px-3.5 py-2.5 rounded-xl border-[1.5px] border-[#111111] bg-[#FAFAFA] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#f59e0b]"
+            >
+              <option value="Home Delivery">Home Delivery</option>
+              <option value="Store Pickup">Store Pickup</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mt-5 flex flex-wrap items-center justify-between gap-4">
+          <p class="text-xs text-gray-600">
+            Clicking below opens WhatsApp with your selected specifications ready to send.
+          </p>
+          <button
+            type="button"
+            onclick="sendQuickOrderWhatsApp()"
+            class="btn-amber px-6 py-3 rounded-full text-sm font-extrabold inline-flex items-center gap-2"
+          >
+            <span>Send Order Inquiry on WhatsApp</span>
+            <span aria-hidden="true">&rarr;</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 3: ABOUT US PAGE (#about)                                      -->
+    <!-- =================================================================== -->
+    <section id="page-about" class="page-view hidden max-w-5xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-16">
+      <!-- Top Brand Story Card -->
+      <div class="rounded-3xl bg-white border-[1.5px] border-[#111111] hard-shadow p-6 sm:p-10">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#fbbf24] border-[1.5px] border-[#111111] font-mono-label text-xs font-bold">
+          <span>ESTABLISHED 2023</span>
+          <span>•</span>
+          <span>1,000+ HAPPY CUSTOMERS</span>
+        </div>
+
+        <h2 class="mt-5 text-3xl sm:text-4xl font-extrabold tracking-tight text-[#111111] leading-tight">
+          Turning Everyday Memories into Lasting Keepsakes Since 2023.
+        </h2>
+
+        <p class="mt-4 text-base text-gray-700 leading-relaxed max-w-3xl">
+          <span class="font-bold text-[#111111]">framecraftt</span> started in 2023 with a simple goal: making personalized gifting thoughtful, durable, and effortless. Over the past three years, we have connected with more than <span class="font-bold text-[#111111]">1,000+ customers</span> across birthdays, weddings, anniversaries, and college farewells.
+        </p>
+
+        <!-- Key Milestones Strip -->
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="p-4 rounded-2xl bg-[#FAFAFA] border-[1.5px] border-[#111111]">
+            <p class="font-mono-label text-xs font-bold uppercase text-gray-500">Operating Since</p>
+            <p class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#111111]">2023</p>
+            <p class="mt-1 text-xs text-gray-600">Trusted local &amp; online custom craft studio</p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#FFFBEB] border-[1.5px] border-[#111111]">
+            <p class="font-mono-label text-xs font-bold uppercase text-gray-600">Community Milestone</p>
+            <p class="mt-1 text-2xl sm:text-3xl font-extrabold text-[#111111]">1,000+</p>
+            <p class="mt-1 text-xs text-gray-700">Customers served with custom keepsakes</p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#FAFAFA] border-[1.5px] border-[#111111]">
+            <p class="font-mono-label text-xs font-bold uppercase text-gray-500">Order Fulfillment</p>
+            <p class="mt-1 text-xl sm:text-2xl font-extrabold text-[#111111]">Pickup &amp; Delivery</p>
+            <p class="mt-1 text-xs text-gray-600">Digital preview included on every order</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Focused 3-Product Specialization (No Upper Size Limit on Frames) -->
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="card-surface rounded-3xl p-6">
+          <span class="font-mono-label text-xs font-bold px-3 py-1 rounded-full bg-[#fbbf24]/35 border border-[#111111]">
+            01 • Photo Frames
+          </span>
+          <h3 class="mt-4 text-lg font-extrabold text-[#111111]">All Sizes &amp; Custom Designs</h3>
+          <p class="mt-2 text-sm text-gray-700 leading-relaxed">
+            We specialize exclusively in custom photo frames across standard and mount dimensions (<span class="font-semibold">4x4, 6x8, A4, Mount A4, A3, Mount A3, 12x18, Mount 12x18</span>) as well as much larger custom wall sizes with <span class="font-semibold">no upper size limit</span>. Choose between sleek <span class="font-semibold">1 inch</span> or bold <span class="font-semibold">1.5 inch</span> frame borders.
+          </p>
+        </div>
+
+        <div class="card-surface rounded-3xl p-6">
+          <span class="font-mono-label text-xs font-bold px-3 py-1 rounded-full bg-[#fbbf24]/35 border border-[#111111]">
+            02 • PVC Wallet Cards
+          </span>
+          <h3 class="mt-4 text-lg font-extrabold text-[#111111]">Durable Pocket Keepsakes</h3>
+          <p class="mt-2 text-sm text-gray-700 leading-relaxed">
+            High-clarity, waterproof PVC cards printed with your favorite portrait, couple photo, or custom illustration—sized to fit neatly inside any wallet so your favorite memory travels with you every day.
+          </p>
+        </div>
+
+        <div class="card-surface rounded-3xl p-6">
+          <span class="font-mono-label text-xs font-bold px-3 py-1 rounded-full bg-[#fbbf24]/35 border border-[#111111]">
+            03 • Coffee Cups
+          </span>
+          <h3 class="mt-4 text-lg font-extrabold text-[#111111]">Custom Printed Ceramic Mugs</h3>
+          <p class="mt-2 text-sm text-gray-700 leading-relaxed">
+            Vibrant, fade-resistant ceramic coffee cups customized with photos, milestone dates, and heartfelt notes—an everyday desk and morning gift made to last.
+          </p>
+        </div>
+      </div>
+
+      <!-- Contact Banner -->
+      <div class="mt-8 rounded-3xl bg-[#111111] text-white p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-[1.5px] border-[#111111]">
+        <div>
+          <p class="font-mono-label text-xs uppercase tracking-wider text-[#fbbf24]">
+            Direct Studio Support
+          </p>
+          <h3 class="mt-1 text-xl sm:text-2xl font-extrabold">
+            Have a custom frame size or collage idea in mind?
+          </h3>
+          <p class="mt-1 text-sm text-gray-300">
+            Message us directly on WhatsApp at <span class="font-mono-label font-bold text-white">+91 70021 49751</span> for a quick quote and digital preview.
+          </p>
+        </div>
+        <a
+          href="https://wa.me/917002149751?text=Hi%20framecraftt!%20I%20visited%20your%20website%20and%20want%20to%20discuss%20a%20custom%20order."
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-amber px-6 py-3 rounded-full text-sm font-extrabold shrink-0"
+        >
+          Chat on WhatsApp
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- FOOTER                                                                -->
+  <!-- ===================================================================== -->
+  <footer class="bg-white border-t border-[#111111] mt-auto">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-[#fbbf24] border border-[#111111] flex items-center justify-center font-extrabold text-xs">
+            fc
+          </span>
+          <span class="font-extrabold text-base text-[#111111]">framecraftt</span>
+          <span class="font-mono-label text-xs text-gray-500">• Est. 2023 • 1,000+ Customers</span>
+        </div>
+        <p class="mt-1.5 text-xs text-gray-600">
+          Custom Photo Frames (All Sizes), PVC Wallet Cards &amp; Coffee Cups • Digital Preview • Store Pickup &amp; Home Delivery
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 text-xs font-bold">
+        <button onclick="navigateTo('home')" class="hover:underline">Catalog</button>
+        <span class="text-gray-300">•</span>
+        <button onclick="navigateTo('how-to-order')" class="hover:underline">How to Order</button>
+        <span class="text-gray-300">•</span>
+        <button onclick="navigateTo('about')" class="hover:underline">About Us</button>
+        <span class="text-gray-300">•</span>
+        <a
+          href="https://wa.me/917002149751"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-3 py-1 rounded-full bg-[#fbbf24] border border-[#111111] text-[#111111]"
+        >
+          WhatsApp: +91 70021 49751
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- FLOATING MOBILE WHATSAPP BUTTON                                       -->
+  <!-- ===================================================================== -->
+  <a
+    href="https://wa.me/917002149751?text=Hi%20framecraftt!%20I%20would%20like%20to%20request%20a%20quote."
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Chat on WhatsApp"
+    class="md:hidden fixed bottom-5 right-5 z-50 btn-amber px-4 py-3 rounded-full shadow-lg flex items-center gap-2 text-xs font-extrabold"
+  >
+    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+    </svg>
+    <span>WhatsApp Quote</span>
+  </a>
+
+  <!-- ===================================================================== -->
+  <!-- APPLICATION LOGIC & CATALOG DATA                                      -->
+  <!-- ===================================================================== -->
+  <script>
+    const WHATSAPP_NUMBER = '917002149751';
+
+    // Exact 7 products mapped to your local filenames inside images/
+    const PRODUCTS = [
+      {
+        id: 'dept-batch-collage',
+        category: 'frame',
+        categoryLabel: 'Custom Photo Frame',
+        title: 'Department of English Batch 2023–2026 Collage Frame',
+        tag: 'Batch & Farewell Special',
+        image: 'images/SaveClip.App_734358288_17945348643217142_8653490888581212622_n.jpg.webp',
+        description: 'Custom cutout group arrangement with department title and batch year, framed in textured dark wood finish.'
+      },
+      {
+        id: 'milestone-64-grid',
+        category: 'frame',
+        categoryLabel: 'Custom Photo Frame',
+        title: '64-Photo Milestone Grid Collage Frame',
+        tag: '64-Photo Grid Layout',
+        image: 'images/SaveClip.App_704948856_17939826474217142_7623435693919692426_n.jpg.webp',
+        description: 'High-density 8x8 memory grid capturing 64 moments in a rich rosewood frame with metallic inner trim.'
+      },
+      {
+        id: 'wedding-gold-mount',
+        category: 'frame',
+        categoryLabel: 'Custom Photo Frame',
+        title: 'Ornate Gold-Trimmed Wedding Mount Frame',
+        tag: 'Royal Mount Finish',
+        image: 'images/IMG_20261001_070358849_HDR.jpg.jpeg',
+        description: 'Classic cream mount board paired with an engraved gold-and-mahogany border and personalized wedding blessing.'
+      },
+      {
+        id: 'anniversary-brown-collage',
+        category: 'frame',
+        categoryLabel: 'Custom Photo Frame',
+        title: 'Classic Brown 3rd Anniversary Collage Frame',
+        tag: 'Bilingual Custom Text',
+        image: 'images/IMG_20261111_072924229_HDR.jpg.jpeg',
+        description: 'Warm woven-texture brown frame with inner gold beading, floral border accents, and custom English or Assamese wishes.'
+      },
+      {
+        id: 'white-birthday-collage',
+        category: 'frame',
+        categoryLabel: 'Custom Photo Frame',
+        title: 'Minimalist White Birthday Photo Collage Frame',
+        tag: 'Polaroid Aesthetic',
+        image: 'images/IMG_20261003_064928839_HDR.jpg.jpeg',
+        description: 'Clean matte white frame showcasing 6 Polaroid-style snapshots, pressed floral graphics, and a custom birthday note.'
+      },
+      {
+        id: 'pvc-wallet-card',
+        category: 'wallet-card',
+        categoryLabel: 'PVC Wallet Card',
+        title: 'Custom PVC Pocket Wallet Card',
+        tag: 'Waterproof & Pocket-Sized',
+        image: 'images/SaveClip.App_653378236_17980485092982144_5531940416683608408_n.jpg.webp',
+        description: 'Durable, high-definition printed PVC card with smooth rounded corners designed to fit cleanly inside any wallet.'
+      },
+      {
+        id: 'custom-coffee-cup',
+        category: 'mug',
+        categoryLabel: 'Coffee Cup',
+        title: 'Custom Printed Ceramic Coffee Mug',
+        tag: 'Everyday Gift Essential',
+        image: 'images/620963899_17922964077217142_3281138955749381323_n.webp',
+        description: 'Glossy white ceramic mug wrapped with your custom portrait, milestone year, and decorative graphic elements.'
+      },
+	{
+    id: 'frame-calendar-bday',
+    category: 'frames',
+    badge: 'Calendar Edition',
+    title: 'Black Calendar Birthday Collage Frame',
+    description: 'Sleek matte black frame featuring a custom date-marked calendar, heartfelt message, and multi-photo grid.',
+    image: 'images/IMG_20261112_073535835_HDR.jpg.jpeg',
+    fallbackHint: 'images/97745.jpg'
+  },
+  {
+    id: 'frame-spotlight-cutout',
+    category: 'frames',
+    badge: 'Spotlight Cutout',
+    title: 'Black & Gold Cutout Tribute Frame',
+    description: 'Full-color foreground cutout layered over a monochrome memory grid, finished in an ornate black and gold border.',
+    image: 'images/IMG_20261015_071036600_HDR.jpg.jpeg',
+    fallbackHint: 'images/82027.jpg'
+  },
+{
+    id: 'frame-square-white',
+    category: 'frames',
+    badge: 'Square Edition',
+    title: 'White Square Photo Frame',
+    description: 'Clean white square frame ideal for portraits, duo shots, desk corners, or compact gift walls.',
+    image: 'images/IMG_20260823_091629045_HDR.jpg.jpeg',
+    fallbackHint: 'images/51751.jpg'
+  },
+    ];
+    const FRAME_SIZES = [
+      '4x4',
+      '6x8',
+      'A4',
+      'Mount A4',
+      'A3',
+      'Mount A3',
+      '12x18',
+      'Mount 12x18',
+      'Custom Size & Design'
+    ];
+
+    // State
+    let selectedSize = 'A4';
+    let customDimensionText = '';
+    let selectedBorder = '1 inch sides';
+    let activeCategory = 'all';
+    let currentHeroIndex = 0;
+
+    // Build WhatsApp URL helper
+    function buildWhatsAppLink(message) {
+      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    }
+
+    // Format current frame configuration string
+    function getActiveFrameSpec() {
+      const sizeLabel =
+        selectedSize === 'Custom Size & Design' && customDimensionText.trim()
+          ? `Custom Size (${customDimensionText.trim()})`
+          : selectedSize;
+      return `${sizeLabel} with ${selectedBorder}`;
+    }
+
+    // Multi-View Navigation (#home, #how-to-order, #about)
+    function navigateTo(viewName) {
+      const validViews = ['home', 'how-to-order', 'about'];
+      const target = validViews.includes(viewName) ? viewName : 'home';
+
+      document.querySelectorAll('.page-view').forEach((section) => {
+        section.classList.add('hidden');
+      });
+
+      const activeSection = document.getElementById(`page-${target}`);
+      if (activeSection) {
+        activeSection.classList.remove('hidden');
+      }
+
+      // Update nav pill styling
+      validViews.forEach((v) => {
+        const btn = document.getElementById(`nav-${v}`);
+        if (!btn) return;
+        if (v === target) {
+          btn.classList.add('bg-[#111111]', 'text-white', 'border-[#111111]');
+          btn.classList.remove('bg-white', 'text-[#111111]', 'hover:bg-[#fbbf24]/25');
+        } else {
+          btn.classList.remove('bg-[#111111]', 'text-white');
+          btn.classList.add('bg-white', 'text-[#111111]', 'border-[#111111]', 'hover:bg-[#fbbf24]/25');
+        }
+      });
+
+      if (window.location.hash !== `#${target}`) {
+        history.replaceState(null, '', `#${target}`);
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Hero Interactive Showcase Logic
+    function renderHeroSlide(index) {
+      currentHeroIndex = (index + PRODUCTS.length) % PRODUCTS.length;
+      const item = PRODUCTS[currentHeroIndex];
+
+      const imgEl = document.getElementById('hero-preview-img');
+      const fallbackBox = document.getElementById('hero-fallback-box');
+      const fallbackTitle = document.getElementById('hero-fallback-title');
+      const fallbackPath = document.getElementById('hero-fallback-path');
+
+      // Reset image visibility on slide switch
+      imgEl.style.display = 'block';
+      fallbackBox.classList.add('hidden');
+      fallbackBox.classList.remove('flex');
+
+      imgEl.src = item.image;
+      imgEl.alt = item.title;
+      fallbackTitle.textContent = item.title;
+      fallbackPath.textContent = item.image;
+
+      document.getElementById('hero-slide-counter').textContent = `${String(currentHeroIndex + 1).padStart(2, '0')} / 0${PRODUCTS.length}`;
+      document.getElementById('hero-preview-category').textContent = item.categoryLabel;
+      document.getElementById('hero-preview-title').textContent = item.title;
+
+      const msg =
+        item.category === 'frame'
+          ? `Hi framecraftt! I would like a quote for "${item.title}" in size ${getActiveFrameSpec()}.`
+          : `Hi framecraftt! I would like a quote for "${item.title}".`;
+      document.getElementById('hero-quote-link').href = buildWhatsAppLink(msg);
+
+      // Highlight active thumbnail pill
+      document.querySelectorAll('.hero-thumb-btn').forEach((btn, idx) => {
+        if (idx === currentHeroIndex) {
+          btn.classList.add('border-[#111111]', 'bg-[#fbbf24]', 'font-bold');
+          btn.classList.remove('border-black/20', 'bg-[#FAFAFA]', 'text-gray-600');
+        } else {
+          btn.classList.remove('border-[#111111]', 'bg-[#fbbf24]', 'font-bold');
+          btn.classList.add('border-black/20', 'bg-[#FAFAFA]', 'text-gray-600');
+        }
+      });
+    }
+
+    function stepHeroSlide(delta) {
+      renderHeroSlide(currentHeroIndex + delta);
+    }
+
+    function handleHeroFallback(imgEl) {
+      imgEl.style.display = 'none';
+      const fallbackBox = document.getElementById('hero-fallback-box');
+      fallbackBox.classList.remove('hidden');
+      fallbackBox.classList.add('flex');
+    }
+
+    function initHeroThumbnails() {
+      const container = document.getElementById('hero-thumbs');
+      container.innerHTML = PRODUCTS.map(
+        (item, idx) => `
+          <button
+            type="button"
+            onclick="renderHeroSlide(${idx})"
+            class="hero-thumb-btn font-mono-label text-[11px] px-2.5 py-1 rounded-full border transition-all whitespace-nowrap"
+          >
+            0${idx + 1}
+          </button>
+        `
+      ).join('');
+    }
+
+    // Interactive Size & Border Customizer
+    function renderSizeOptions() {
+      const container = document.getElementById('size-options');
+      container.innerHTML = FRAME_SIZES.map((size) => {
+        const isSelected = size === selectedSize;
+        const activeClasses = isSelected
+          ? 'bg-[#fbbf24] text-[#111111] border-[#111111] hard-shadow-sm font-extrabold'
+          : 'bg-[#FAFAFA] text-[#111111] border-[#111111] hover:bg-[#fbbf24]/25 font-semibold';
+        return `
+          <button
+            type="button"
+            onclick="selectFrameSize('${size}')"
+            class="px-3.5 py-2 rounded-full text-xs sm:text-sm border-[1.5px] transition-all ${activeClasses}"
+          >
+            ${size}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectFrameSize(size) {
+      selectedSize = size;
+      const customWrapper = document.getElementById('custom-size-wrapper');
+      if (size === 'Custom Size & Design') {
+        customWrapper.classList.remove('hidden');
+        document.getElementById('custom-size-input').focus();
+      } else {
+        customWrapper.classList.add('hidden');
+      }
+      renderSizeOptions();
+      syncCustomizerUI();
+    }
+
+    function updateCustomDimension(val) {
+      customDimensionText = val;
+      syncCustomizerUI();
+    }
+
+    function selectBorderWidth(borderText) {
+      selectedBorder = borderText;
+      const btn1 = document.getElementById('border-1-inch');
+      const btn15 = document.getElementById('border-1-5-inch');
+
+      if (borderText === '1 inch sides') {
+        btn1.classList.add('bg-[#111111]', 'text-white');
+        btn1.classList.remove('bg-white', 'text-[#111111]');
+        btn15.classList.remove('bg-[#111111]', 'text-white');
+        btn15.classList.add('bg-white', 'text-[#111111]');
+      } else {
+        btn15.classList.add('bg-[#111111]', 'text-white');
+        btn15.classList.remove('bg-white', 'text-[#111111]');
+        btn1.classList.remove('bg-[#111111]', 'text-white');
+        btn1.classList.add('bg-white', 'text-[#111111]');
+      }
+      syncCustomizerUI();
+    }
+
+    function syncCustomizerUI() {
+      const displaySize =
+        selectedSize === 'Custom Size & Design' && customDimensionText.trim()
+          ? `Custom (${customDimensionText.trim()})`
+          : selectedSize;
+
+      document.getElementById('summary-size-text').textContent = displaySize;
+      document.getElementById('summary-border-text').textContent = selectedBorder;
+
+      const customMsg = `Hi framecraftt! I would like a quote for a Custom Photo Frame in size: ${getActiveFrameSpec()}. Please share details.`;
+      document.getElementById('custom-config-wa-btn').href = buildWhatsAppLink(customMsg);
+
+      renderHeroSlide(currentHeroIndex);
+      renderProducts();
+    }
+
+    // Category Filtering & Product Grid Rendering
+    function filterCategory(category) {
+      activeCategory = category;
+      document.querySelectorAll('.cat-pill').forEach((btn) => {
+        if (btn.dataset.cat === category) {
+          btn.classList.add('bg-[#111111]', 'text-white');
+          btn.classList.remove('bg-white', 'text-[#111111]', 'hover:bg-[#fbbf24]/25');
+        } else {
+          btn.classList.remove('bg-[#111111]', 'text-white');
+          btn.classList.add('bg-white', 'text-[#111111]', 'hover:bg-[#fbbf24]/25');
+        }
+      });
+      renderProducts();
+    }
+
+    function handleCardImageError(imgEl) {
+      imgEl.style.display = 'none';
+      const fallback = imgEl.nextElementSibling;
+      if (fallback) {
+        fallback.classList.remove('hidden');
+        fallback.classList.add('flex');
+      }
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('products-container');
+      const filtered =
+        activeCategory === 'all'
+          ? PRODUCTS
+          : PRODUCTS.filter((p) => p.category === activeCategory);
+
+      container.innerHTML = filtered
+        .map((item) => {
+          const isFrame = item.category === 'frame';
+          const specBadge = isFrame ? getActiveFrameSpec() : 'Standard Custom Size';
+          const waMessage = isFrame
+            ? `Hi framecraftt! I would like a quote for "${item.title}" in size ${getActiveFrameSpec()}.`
+            : `Hi framecraftt! I would like a quote for "${item.title}".`;
+
+          return `
+            <article class="card-surface rounded-3xl overflow-hidden flex flex-col justify-between">
+              <div>
+                <!-- Product Photo Container -->
+                <div class="relative aspect-[4/4] w-full bg-[#F3F4F6] border-b-[1.5px] border-[#111111] overflow-hidden">
+                  <img
+                    src="${item.image}"
+                    alt="${item.title}"
+                    loading="lazy"
+                    onerror="handleCardImageError(this)"
+                    class="w-full h-full object-cover"
+                  />
+                  <!-- Graceful Fallback Box if Local Folder Is Not Attached Yet -->
+                  <div class="hidden w-full h-full flex-col items-center justify-center p-5 text-center bg-[#FFFBEB]">
+                    <span class="px-2.5 py-0.5 rounded-full bg-[#fbbf24] border border-[#111111] font-mono-label text-[10px] font-bold mb-2">
+                      ${item.categoryLabel}
+                    </span>
+                    <p class="font-bold text-sm text-[#111111]">${item.title}</p>
+                    <p class="font-mono-label text-[10px] text-gray-500 mt-1.5 break-all">${item.image}</p>
+                  </div>
+
+                  <!-- Top Tag Pill -->
+                  <span class="absolute top-3 left-3 font-mono-label text-[11px] font-bold px-3 py-1 rounded-full bg-white/95 border border-[#111111] text-[#111111]">
+                    ${item.tag}
+                  </span>
+                </div>
+
+                <!-- Card Details -->
+                <div class="p-5">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="font-mono-label text-[11px] font-bold uppercase tracking-wider text-[#d97706]">
+                      ${item.categoryLabel}
+                    </span>
+                  </div>
+
+                  <h3 class="mt-1.5 text-lg font-extrabold text-[#111111] leading-snug">
+                    ${item.title}
+                  </h3>
+
+                  <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+                    ${item.description}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Card Footer: Selected Spec & Direct WhatsApp Quote CTA (No Prices) -->
+              <div class="px-5 pb-5 pt-2">
+                <div class="mb-3 px-3 py-2 rounded-xl bg-[#FAFAFA] border border-black/15 flex items-center justify-between gap-2">
+                  <span class="font-mono-label text-[11px] text-gray-500">Configuration:</span>
+                  <span class="font-mono-label text-[11px] font-bold text-[#111111] truncate">${specBadge}</span>
+                </div>
+
+                <a
+                  href="${buildWhatsAppLink(waMessage)}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-full btn-amber py-2.5 px-4 rounded-full text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2"
+                >
+                  <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                  </svg>
+                  <span>Request Quote on WhatsApp</span>
+                </a>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+    }
+
+    // How to Order Page Quick Form Handler
+    function sendQuickOrderWhatsApp() {
+      const product = document.getElementById('order-product-select').value;
+      const sizeSpec = document.getElementById('order-size-select').value;
+      const fulfillment = document.getElementById('order-fulfillment-select').value;
+
+      const msg = `Hi framecraftt! I would like to place an order enquiry:\n• Product: ${product}\n• Size & Border: ${sizeSpec}\n• Preference: ${fulfillment}\nPlease share the quote and next steps for the digital preview.`;
+      window.open(buildWhatsAppLink(msg), '_blank', 'noopener,noreferrer');
+    }
+
+    // Initialize App on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      initHeroThumbnails();
+      renderSizeOptions();
+      syncCustomizerUI();
+
+      const initialHash = window.location.hash.replace('#', '');
+      navigateTo(initialHash || 'home');
+    });
+
+    window.addEventListener('hashchange', () => {
+      const hashView = window.location.hash.replace('#', '');
+      navigateTo(hashView || 'home');
+    });
+  </script>
+</body>
+</html>
